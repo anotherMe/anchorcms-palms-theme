@@ -2,9 +2,9 @@
 
 <section class="content">
 
-	<?php if(has_posts()): ?>
+	<?php if(has_tagged_posts()): ?>
 		<ul class="items">
-			<?php posts(); ?>
+			<?php tagged_posts(); ?>
 			<li>
 				<article class="wrap">
 					<h1>
@@ -15,12 +15,23 @@
 						<?php echo article_markdown(); ?>
 					</div>
 
+                                        <?php 
+                                        $tags = get_tags_for_post(article_id());
+                                        if ( count($tags) > 0 ) { 
+                                        ?> 
+                                        <section class="tags">    
+                                            <?php foreach($tags as $tag):?>
+                                            <span><?php echo $tag ?></span>
+                                            <?php endforeach; ?>
+                                        </section>
+                                        <?php } ?>
+
 					<footer>
 						Posted <time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time> by <?php echo article_author('real_name'); ?>.
 					</footer>
 				</article>
 			</li>
-			<?php $i = 0; while(posts()): ?>
+			<?php $i = 0; while(tagged_posts()): ?>
 			<?php $bg = sprintf('background: hsl(215, 28%%, %d%%);', round(((++$i / posts_per_page()) * 20) + 20)); ?>
 			<li style="<?php echo $bg; ?>">
 				<article class="wrap">
