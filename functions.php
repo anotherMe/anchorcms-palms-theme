@@ -131,43 +131,6 @@ function explode_tags ($text) {
 *
 * @return array
 */
-function get_tags_for_post_DELETE($post_id) {
-    
-  $tag_ext = Extend::where('key', '=', 'post_tags')->where('type', '=', 'post')->get();
-  $tag_id = $tag_ext[0]->id;
-
-  $prefix = Config::db('prefix', '');
-
-  $tags = array();
-  $index = 0;
-  foreach(Query::table($prefix.'post_meta')
-    ->left_join('posts', 'posts.id', '=', 'post_meta.post')
-    ->where('posts.status', '=', 'published')
-    ->where('extend', '=', $tag_id)
-    ->where('post', '=', $post_id) // questa è la linea che ho aggiunto
-    ->get() as $meta) {
-      
-        $post_meta = json_decode($meta->data);
-        if (! trim($post_meta->text) == "" )
-        {
-            foreach(explode(",", $post_meta->text) as $tag_text) 
-            {
-                $tags[$index] = trim($tag_text);
-                $index += 1;
-            }            
-        }
-
-    }
-
-  return array_unique($tags);
-}
-
-/**
-* Returns an array of unique tags that exist on post given post,
-* empty array if no tags are found.
-*
-* @return array
-*/
 function get_tags_for_post($post_id) 
 {    
     $tag_ext = Extend::where('key', '=', 'post_tags')->where('type', '=', 'post')->get();
