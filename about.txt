@@ -1,0 +1,5 @@
+Theme name:    Palms
+Description:   This is my custom theme, base on default theme for Anchor CMS, slightly modified to support tags.
+Author name:   marco.giordano
+Author site:   http://justanother.me
+License:       http://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
