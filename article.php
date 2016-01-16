@@ -7,13 +7,16 @@
         <?php echo article_markdown(); ?>
     </article>
 
-    <section class="tags">
-        <?php 
-        $tags = get_tags_for_post(article_id());
-        foreach($tags as $tag):?>
-        <span><?php echo $tag ?></span>
+    <?php 
+    $tags = get_tags_for_post(article_id());
+    if ( count($tags) > 0 ) { 
+    ?> 
+    <section class="tags">    
+        <?php foreach($tags as $tag):?>
+        <a href="/posts?tag=<?php echo $tag ?>"><?php echo $tag ?></a>
         <?php endforeach; ?>
     </section>
+    <?php } ?>
     
     <section class="footnote">
         <!-- Unfortunately, CSS means everything has got to be inline. -->

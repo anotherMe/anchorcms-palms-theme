@@ -69,6 +69,8 @@ function total_articles() {
 
 
 
+
+
 /**
 * Returns an array of unique tags that exist on pages
 *
@@ -120,43 +122,6 @@ function get_pages_with_tag($tag='') {
 
   return array_unique($pages);
 }
-
-/**
-* Returns an array of unique tags that exist on post given post,
-* empty array if no tags are found.
-*
-* @return array
-*/
-function get_tags_for_post($post_id) 
-{    
-    $tag_ext = Extend::where('key', '=', 'post_tags')->where('type', '=', 'post')->get();
-    $tag_id = $tag_ext[0]->id;
-
-    $prefix = Config::db('prefix', '');
-
-    $tags = array();
-    $index = 0;
-    $meta = Query::table($prefix.'post_meta')
-        ->left_join('posts', 'posts.id', '=', 'post_meta.post')
-        ->where('posts.status', '=', 'published')
-        ->where('extend', '=', $tag_id)
-        ->where('post', '=', $post_id) // questa è la linea che ho aggiunto
-        ->get();
-
-    $post_meta = json_decode($meta[0]->data);
-    if (! trim($post_meta->text) == "" )
-    {
-        foreach(explode(",", $post_meta->text) as $tag_text) 
-        {
-            $tags[$index] = trim($tag_text);
-            $index += 1;
-        }            
-    }
-
-    return array_unique($tags);
-}
-
-
 
 /**
 * Returns an array of unique tags that exist on posts
@@ -243,6 +208,7 @@ function has_tagged_posts() {
  * @return bool
  */
 function tagged_posts() {
+    
   if(isset($_GET) && array_key_exists('tag',$_GET) && $tag = $_GET['tag']) {
     if(! $posts = Registry::get('tagged_posts')) {
       $tagged_posts = get_posts_with_tag($tag);
@@ -273,4 +239,40 @@ function tagged_posts() {
   }
 
   return false;
+}
+
+
+/**
+* Returns an array of unique tags that exist on post given post,
+* empty array if no tags are found.
+*
+* @return array
+*/
+function get_tags_for_post($post_id) 
+{    
+    $tag_ext = Extend::where('key', '=', 'post_tags')->where('type', '=', 'post')->get();
+    $tag_id = $tag_ext[0]->id;
+
+    $prefix = Config::db('prefix', '');
+
+    $tags = array();
+    $index = 0;
+    $meta = Query::table($prefix.'post_meta')
+        ->left_join('posts', 'posts.id', '=', 'post_meta.post')
+        ->where('posts.status', '=', 'published')
+        ->where('extend', '=', $tag_id)
+        ->where('post', '=', $post_id) // questa è la linea che ho aggiunto
+        ->get();
+
+    $post_meta = json_decode($meta[0]->data);
+    if (! trim($post_meta->text) == "" )
+    {
+        foreach(explode(",", $post_meta->text) as $tag_text) 
+        {
+            $tags[$index] = trim($tag_text);
+            $index += 1;
+        }            
+    }
+
+    return array_unique($tags);
 }
