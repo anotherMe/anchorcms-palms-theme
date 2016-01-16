@@ -15,16 +15,7 @@
 						<?php echo article_markdown(); ?>
 					</div>
 
-                                        <?php 
-                                        $tags = get_tags_for_post(article_id());
-                                        if ( count($tags) > 0 ) { 
-                                        ?> 
-                                        <section class="tags">    
-                                            <?php foreach($tags as $tag):?>
-                                            <span><?php echo $tag ?></span>
-                                            <?php endforeach; ?>
-                                        </section>
-                                        <?php } ?>
+                                        <!-- insert tags here -->
 
 					<footer>
 						Posted <time datetime="<?php echo date(DATE_W3C, article_time()); ?>"><?php echo relative_time(article_time()); ?></time> by <?php echo article_author('real_name'); ?>.
