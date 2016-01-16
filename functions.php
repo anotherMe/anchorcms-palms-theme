@@ -121,10 +121,6 @@ function get_pages_with_tag($tag='') {
   return array_unique($pages);
 }
 
-function explode_tags ($text) {
-    
-}
-
 /**
 * Returns an array of unique tags that exist on post given post,
 * empty array if no tags are found.
