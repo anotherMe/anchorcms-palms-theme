@@ -7,6 +7,7 @@
   collisions or wrap your functions with if function_exists braces.
  */
 
+
 function numeral($number) {
     $test = abs($number) % 10;
     $ext = ((abs($number) % 100 < 21 and abs($number) % 100 > 4) ? 'th' : (($test < 4) ? ($test < 3) ? ($test < 2) ? ($test < 1) ? 'th' : 'st' : 'nd' : 'rd' : 'th'));
@@ -68,6 +69,10 @@ function twitter_url() {
 function total_articles() {
     return Post::where(Base::table('posts.status'), '=', 'published')->count();
 }
+
+
+
+/* theme custom functions - BEGIN *********************************************/
 
 /**
  * Returns an array of unique tags that exist on pages
@@ -314,3 +319,5 @@ function get_tags_for_post($post_id) {
 
     return array_unique($tags);
 }
+
+/* theme custom functions - END ***********************************************/
