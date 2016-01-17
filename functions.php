@@ -184,13 +184,21 @@ function extract_tag() {
     
     $tag = '';
     try {
+        
         if (isset($_SERVER) && $_SERVER['REQUEST_METHOD'] == 'GET' 
                 && $url = $_SERVER['REQUEST_URI']) {
-            $query = parse_url($url)['query'];
-            if (substr($query, 0, 4) === 'tag=') {
-                $tag = substr($query, -(strlen($query) - 4));
+            
+            $parsed_url = parse_url($url);    
+            //if ( array_key_exists('query', $parsed_url) )
+            if ( array_key_exists('query', $parsed_url) )
+            {
+                $query = $parsed_url['query'];
+                if ( substr($query, 0, 4) === 'tag=') {
+                    $tag = substr($query, -(strlen($query) - 4));
+                }
             }
         }
+        
     } catch (Exception $ex) {
 
         //FIXME: log something ... where ?
